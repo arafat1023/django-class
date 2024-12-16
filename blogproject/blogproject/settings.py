@@ -94,7 +94,7 @@ DATABASES = {
         'USER': 'arafat1023',  # MySQL username
         'PASSWORD': 'Amiarafat12@',  # MySQL password
         'HOST': 'localhost',      # Database host
-        'PORT': '3306',           # Default MySQL port
+        'PORT': '3306',           # Default MySQL port no
     }
 }
 
