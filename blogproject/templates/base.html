@@ -1,0 +1,15 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %} <!-- Load the static template tag library -->
+    <title>{% block title %}Blog Platform{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Blog Platform</h1>
+    </header>
+    {% block content %}{% endblock %}
+</body>
+</html>

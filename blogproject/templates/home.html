@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h2>Welcome to the Blog!</h2>
+<p>This is the homepage for your blog.</p>
+
+<h3>Recently Registered Users</h3>
+<ul>
+    {% for user in recent_users %}
+    <li>{{ user.username }} - {{ user.date_joined }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
