@@ -30,6 +30,14 @@ from django import forms
 class ContactForm(forms.Form):
     name = forms.CharField(max_length=100, label="Your Name")
     email = forms.EmailField(label="Your Email")
+    phone = forms.RegexField(
+        regex=r'^\+?1?\d{9,15}$',
+        error_messages={
+            'invalid': "Enter a valid phone number."
+        },
+        label="Phone Number",
+    )
+    attachment = forms.FileField(required=False, label="Attach a File")
     message = forms.CharField(widget=forms.Textarea, label="Your Message")
 
     def clean_message(self):

@@ -33,18 +33,27 @@ def register(request):
 from django.shortcuts import render
 from .forms import ContactForm
 
+
 def contact(request):
     if request.method == 'POST':
-        form = ContactForm(request.POST)
+        form = ContactForm(request.POST, request.FILES)  # Include request.FILES for file uploads
         if form.is_valid():
             # Process the form data
             name = form.cleaned_data['name']
             email = form.cleaned_data['email']
             message = form.cleaned_data['message']
-            # Placeholder for sending an email or storing data
+            attachment = request.FILES.get('attachment')  # Get the uploaded file
+
+            # Log or process the file (for demonstration purposes)
+            if attachment:
+                print(f"Received file: {attachment.name}")
+
+            # Placeholder for additional processing like saving to the database or sending an email
             print(f"Received message from {name} ({email}): {message}")
+
             return render(request, 'contact_success.html', {'name': name})
     else:
         form = ContactForm()
 
     return render(request, 'contact.html', {'form': form})
+
