@@ -1,0 +1,6 @@
+/venv/
+/.cadence/
+/blogproject/media/profiles/
+__pycache__/
+*.pyc
+
