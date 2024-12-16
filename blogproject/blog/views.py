@@ -29,3 +29,22 @@ def register(request):
         'user_form': user_form,
         'profile_form': profile_form
     })
+
+from django.shortcuts import render
+from .forms import ContactForm
+
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # Process the form data
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            # Placeholder for sending an email or storing data
+            print(f"Received message from {name} ({email}): {message}")
+            return render(request, 'contact_success.html', {'name': name})
+    else:
+        form = ContactForm()
+
+    return render(request, 'contact.html', {'form': form})
