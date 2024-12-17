@@ -321,6 +321,13 @@ Start the development server:
 python manage.py runserver
 ```
 
+## **9. Set up Tkinter as per Tkinter.md**
+
+Go to gui directory:
+```bash
+python gui_main.py
+```
+
 Visit:
 - Home: `http://127.0.0.1:8000/`
 - Admin: `http://127.0.0.1:8000/admin/`
