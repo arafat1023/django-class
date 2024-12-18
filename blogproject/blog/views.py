@@ -3,6 +3,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from .forms import UserRegistrationForm, UserProfileForm
 from django.contrib.auth.models import User
+from .models import Post
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 def home(request):
     recent_users = User.objects.order_by('-date_joined')[:5]  # Fetch the 5 most recent users.
@@ -56,4 +59,44 @@ def contact(request):
         form = ContactForm()
 
     return render(request, 'contact.html', {'form': form})
+
+def api_posts(request):
+    posts = Post.objects.values("id", "title", "content")
+    return JsonResponse(list(posts), safe=False)
+
+@csrf_exempt
+def create_post(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        if title and content:
+            Post.objects.create(title=title, content=content)
+            return JsonResponse({'message': 'Post created successfully'}, status=201)
+        return JsonResponse({'error': 'Invalid data'}, status=400)
+
+@csrf_exempt
+def update_post(request, post_id):
+    if request.method == 'POST':
+        try:
+            post = Post.objects.get(id=post_id)
+            title = request.POST.get('title', post.title)
+            content = request.POST.get('content', post.content)
+            post.title = title
+            post.content = content
+            post.save()
+            return JsonResponse({'message': 'Post updated successfully'}, status=200)
+        except Post.DoesNotExist:
+            return JsonResponse({'error': 'Post not found'}, status=404)
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
+@csrf_exempt
+def delete_post(request, post_id):
+    if request.method == 'POST':
+        try:
+            post = Post.objects.get(id=post_id)
+            post.delete()
+            return JsonResponse({'message': 'Post deleted successfully'}, status=200)
+        except Post.DoesNotExist:
+            return JsonResponse({'error': 'Post not found'}, status=404)
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
