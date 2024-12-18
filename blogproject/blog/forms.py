@@ -1,15 +1,15 @@
 # blog/forms.py
 from django import forms
 from django.contrib.auth.models import User
-from .models import UserProfile
+from .models import CustomUser
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     password_confirm = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
 
     class Meta:
-        model = User
-        fields = ['username', 'email', 'password']
+        model = CustomUser
+        fields = ['username', 'email', 'password', 'bio', 'profile_image']
 
     def clean(self):
         cleaned_data = super().clean()
@@ -22,10 +22,9 @@ class UserRegistrationForm(forms.ModelForm):
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
-        model = UserProfile
+        model = CustomUser
         fields = ['bio', 'profile_image']
 
-from django import forms
 
 class ContactForm(forms.Form):
     name = forms.CharField(max_length=100, label="Your Name")

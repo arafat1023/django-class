@@ -1,40 +1,47 @@
 # blog/views.py
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from .forms import UserRegistrationForm, UserProfileForm
+from .forms import UserRegistrationForm
 from django.contrib.auth.models import User
 from .models import Post
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-
+from django.contrib.auth import get_user_model
 def home(request):
-    recent_users = User.objects.order_by('-date_joined')[:5]  # Fetch the 5 most recent users.
+    CustomUser = get_user_model()  # Retrieve the actual model
+    recent_users = CustomUser.objects.order_by('-date_joined')[:5]
     return render(request, 'home.html', {'recent_users': recent_users})
+
 
 
 def register(request):
     if request.method == 'POST':
-        user_form = UserRegistrationForm(request.POST)
-        profile_form = UserProfileForm(request.POST, request.FILES)
-        if user_form.is_valid() and profile_form.is_valid():
+        user_form = UserRegistrationForm(request.POST, request.FILES)
+        if user_form.is_valid():
             user = user_form.save(commit=False)
             user.set_password(user_form.cleaned_data['password'])
             user.save()
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            profile.save()
-            login(request, user)
+            login(request, user)  # Log the user in after successful registration
             return redirect('home')
     else:
         user_form = UserRegistrationForm()
-        profile_form = UserProfileForm()
+
     return render(request, 'register.html', {
         'user_form': user_form,
-        'profile_form': profile_form
     })
 
 from django.shortcuts import render
 from .forms import ContactForm
+
+def profile(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = UserRegistrationForm(instance=request.user)
+    return render(request, 'profile.html', {'form': form})
 
 
 def contact(request):
