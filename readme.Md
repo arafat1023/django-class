@@ -1,7 +1,6 @@
 # Django Project Setup - Comprehensive Guide
 
-This document provides step-by-step instructions for installing Python, setting up a virtual environment, installing Django, creating a project, and configuring it for a comprehensive class demonstration.
-
+Please check the doc folder as well
 ---
 
 ## **1. Install Python**
