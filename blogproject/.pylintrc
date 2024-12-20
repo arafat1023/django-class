@@ -1,0 +1,26 @@
+[MASTER]
+init-hook='import sys; sys.path.append(".")'
+
+[MESSAGES CONTROL]
+disable=
+    missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
+    invalid-str-returned,
+    too-few-public-methods,
+    no-self-use
+
+[FORMAT]
+max-line-length=88
+
+[REPORTS]
+reports=no
+
+[LOGGING]
+logging-format-style=old
+
+[IMPORTS]
+max-imports=15
+
+[BASIC]
+good-names=i,j,k,ex,Run,_,qs

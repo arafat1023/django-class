@@ -14,62 +14,67 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 
-
-
 # @cache_page(60 * 15)  # Cache for 15 minutes
 def home(request):
     CustomUser = get_user_model()
-    recent_users = CustomUser.objects.order_by('-date_joined')[:5]
-    context = {'recent_users': recent_users}
+    recent_users = CustomUser.objects.order_by("-date_joined")[:5]
+    context = {"recent_users": recent_users}
 
     # Include user-specific data only if user is authenticated
     if request.user.is_authenticated:
-        context['user'] = request.user
+        context["user"] = request.user
 
-    return render(request, 'home.html', context)
-
+    return render(request, "home.html", context)
 
 
 def register(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         user_form = UserRegistrationForm(request.POST, request.FILES)
         if user_form.is_valid():
             user = user_form.save(commit=False)
-            user.set_password(user_form.cleaned_data['password'])
+            user.set_password(user_form.cleaned_data["password"])
             user.save()
             login(request, user)  # Log the user in after successful registration
-            return redirect('home')
+            return redirect("home")
     else:
         user_form = UserRegistrationForm()
 
-    return render(request, 'register.html', {
-        'user_form': user_form,
-    })
+    return render(
+        request,
+        "register.html",
+        {
+            "user_form": user_form,
+        },
+    )
+
 
 from django.shortcuts import render
 from .forms import ContactForm
 
+
 @login_required
 def profile(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = UserRegistrationForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect("home")
     else:
         form = UserRegistrationForm(instance=request.user)
-    return render(request, 'profile.html', {'form': form})
+    return render(request, "profile.html", {"form": form})
 
 
 def contact(request):
-    if request.method == 'POST':
-        form = ContactForm(request.POST, request.FILES)  # Include request.FILES for file uploads
+    if request.method == "POST":
+        form = ContactForm(
+            request.POST, request.FILES
+        )  # Include request.FILES for file uploads
         if form.is_valid():
             # Process the form data
-            name = form.cleaned_data['name']
-            email = form.cleaned_data['email']
-            message = form.cleaned_data['message']
-            attachment = request.FILES.get('attachment')  # Get the uploaded file
+            name = form.cleaned_data["name"]
+            email = form.cleaned_data["email"]
+            message = form.cleaned_data["message"]
+            attachment = request.FILES.get("attachment")  # Get the uploaded file
 
             # Log or process the file (for demonstration purposes)
             if attachment:
@@ -78,62 +83,67 @@ def contact(request):
             # Placeholder for additional processing like saving to the database or sending an email
             print(f"Received message from {name} ({email}): {message}")
 
-            return render(request, 'contact_success.html', {'name': name})
+            return render(request, "contact_success.html", {"name": name})
     else:
         form = ContactForm()
 
-    return render(request, 'contact.html', {'form': form})
+    return render(request, "contact.html", {"form": form})
+
 
 def api_posts(request):
     posts = Post.objects.values("id", "title", "content")
     return JsonResponse(list(posts), safe=False)
 
+
 @csrf_exempt
 def create_post(request):
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        content = request.POST.get('content')
+    if request.method == "POST":
+        title = request.POST.get("title")
+        content = request.POST.get("content")
         if title and content:
             Post.objects.create(title=title, content=content)
-            return JsonResponse({'message': 'Post created successfully'}, status=201)
-        return JsonResponse({'error': 'Invalid data'}, status=400)
+            return JsonResponse({"message": "Post created successfully"}, status=201)
+        return JsonResponse({"error": "Invalid data"}, status=400)
+
 
 @csrf_exempt
 def update_post(request, post_id):
-    if request.method == 'POST':
+    if request.method == "POST":
         try:
             post = Post.objects.get(id=post_id)
-            title = request.POST.get('title', post.title)
-            content = request.POST.get('content', post.content)
+            title = request.POST.get("title", post.title)
+            content = request.POST.get("content", post.content)
             post.title = title
             post.content = content
             post.save()
-            return JsonResponse({'message': 'Post updated successfully'}, status=200)
+            return JsonResponse({"message": "Post updated successfully"}, status=200)
         except Post.DoesNotExist:
-            return JsonResponse({'error': 'Post not found'}, status=404)
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+            return JsonResponse({"error": "Post not found"}, status=404)
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
 
 @csrf_exempt
 def delete_post(request, post_id):
-    if request.method == 'POST':
+    if request.method == "POST":
         try:
             post = Post.objects.get(id=post_id)
             post.delete()
-            return JsonResponse({'message': 'Post deleted successfully'}, status=200)
+            return JsonResponse({"message": "Post deleted successfully"}, status=200)
         except Post.DoesNotExist:
-            return JsonResponse({'error': 'Post not found'}, status=404)
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+            return JsonResponse({"error": "Post not found"}, status=404)
+    return JsonResponse({"error": "Invalid request"}, status=400)
 
 
 class CustomLoginView(LoginView):
-    template_name = 'login.html'
+    template_name = "login.html"
     redirect_authenticated_user = True  # Redirect already logged-in users
 
 
 def logout_view(request):
     logout(request)
     request.session.flush()  # Ensure session is cleared
-    return redirect('logout_confirmation')
+    return redirect("logout_confirmation")
+
 
 def logout_confirmation(request):
-    return render(request, 'logout_confirmation.html')
+    return render(request, "logout_confirmation.html")
