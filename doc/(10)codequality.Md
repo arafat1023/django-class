@@ -24,7 +24,7 @@ Modify the `.pylintrc` file as needed to customize checks.
 Run Pylint on your Django app:
 
 ```bash
-pylint blog
+pylint appname
 ```
 
 It will produce a report highlighting errors, warnings, and suggestions.
@@ -43,7 +43,7 @@ echo "[flake8]\nmax-line-length = 88" > .flake8
 Run Flake8 on your Django app:
 
 ```bash
-flake8 blog
+flake8 appname
 ```
 
 This will check for PEP 8 violations and produce a report.
@@ -55,7 +55,7 @@ Black is an opinionated code formatter that enforces consistent formatting.
 To format your Django app code:
 
 ```bash
-black blog
+black appname
 ```
 
 This will modify your files to conform to Black's formatting rules.
@@ -133,25 +133,6 @@ From now on, code quality checks will run automatically before every commit.
 1. Go to **Preferences > Tools > File Watchers**.
 2. Add **Black**, **Pylint**, and **Flake8** as external tools.
 3. Configure them to run automatically on file changes.
-
-## Example Workflow
-1. Write or modify your Django code.
-2. Run the following commands:
-
-```bash
-black blog  # Format the code
-flake8 blog  # Check for PEP 8 violations
-pylint blog  # Run static analysis
-```
-
-3. Fix any issues reported by the tools.
-4. Commit and push your changes.
-
-```bash
-git add .
-git commit -m "Improve code quality"
-git push
-```
 
 ## Additional Resources
 - [Pylint Documentation](https://pylint.pycqa.org/)
