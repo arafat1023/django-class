@@ -1,8 +1,8 @@
 # blog/forms.py
 from django import forms
-from django.contrib.auth.models import User
 from .models import CustomUser
 
+# User Registration Form
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     password_confirm = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
@@ -20,12 +20,14 @@ class UserRegistrationForm(forms.ModelForm):
         return cleaned_data
 
 
+# User Profile Update Form
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['bio', 'profile_image']
 
 
+# Contact Form
 class ContactForm(forms.Form):
     name = forms.CharField(max_length=100, label="Your Name")
     email = forms.EmailField(label="Your Email")

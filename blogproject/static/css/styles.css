@@ -2,28 +2,51 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f8ff; /* Light blue background */
+    background-color: #f4f4f9;
 }
 
 header {
-    background: url('/static/images/banner.webp') no-repeat center center;
-    background-size: cover;
-    color: white;
-    padding: 20px;
+    background-color: #333;
+    color: #fff;
+    padding: 1em 0;
     text-align: center;
 }
 
-nav a {
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    background-color: #444;
+}
+
+nav ul li {
+    margin: 0 1em;
+}
+
+nav ul li a {
     color: white;
-    margin: 0 15px;
     text-decoration: none;
     font-weight: bold;
 }
 
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
 main {
-    padding: 20px;
-    background-color: white;
-    margin: 20px auto;
+    padding: 2em;
     max-width: 800px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    text-align: center;
+    padding: 1em 0;
+    background-color: #333;
+    color: white;
+    margin-top: 2em;
 }

@@ -2,14 +2,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% load static %} <!-- Load the static template tag library -->
+    {% load static %}
     <title>{% block title %}Blog Platform{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <header>
-        <h1>Welcome to the Blog Platform</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                    <li style="background: red"><a href="{% url 'profile' %}">Profile</a></li>
+                    <li style="background: red"><a href="{% url 'logout' %}?next={{ request.path }}">Logout</a></li>
+                {% else %}
+                    <li style="background: red"><a href="{% url 'login' %}">Login</a></li>
+                    <li style="background: red"><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+                <li style="background: red"><a href="{% url 'contact' %}">Contact</a></li>
+            </ul>
+        </nav>
     </header>
-    {% block content %}{% endblock %}
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Blog Platform. All rights reserved.</p>
+    </footer>
 </body>
 </html>

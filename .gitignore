@@ -1,5 +1,6 @@
 /venv/
 /.cadence/
+/.idea/
 /blogproject/media/profiles/
 __pycache__/
 *.pyc

@@ -1,16 +1,32 @@
 # blog/views.py
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
+from django.contrib.auth import logout
 from .forms import UserRegistrationForm
 from django.contrib.auth.models import User
 from .models import Post
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
+from django.views.decorators.cache import cache_page
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+
+
+
+# @cache_page(60 * 15)  # Cache for 15 minutes
 def home(request):
-    CustomUser = get_user_model()  # Retrieve the actual model
+    CustomUser = get_user_model()
     recent_users = CustomUser.objects.order_by('-date_joined')[:5]
-    return render(request, 'home.html', {'recent_users': recent_users})
+    context = {'recent_users': recent_users}
+
+    # Include user-specific data only if user is authenticated
+    if request.user.is_authenticated:
+        context['user'] = request.user
+
+    return render(request, 'home.html', context)
 
 
 
@@ -33,6 +49,7 @@ def register(request):
 from django.shortcuts import render
 from .forms import ContactForm
 
+@login_required
 def profile(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST, instance=request.user)
@@ -107,3 +124,16 @@ def delete_post(request, post_id):
             return JsonResponse({'error': 'Post not found'}, status=404)
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
+
+class CustomLoginView(LoginView):
+    template_name = 'login.html'
+    redirect_authenticated_user = True  # Redirect already logged-in users
+
+
+def logout_view(request):
+    logout(request)
+    request.session.flush()  # Ensure session is cleared
+    return redirect('logout_confirmation')
+
+def logout_confirmation(request):
+    return render(request, 'logout_confirmation.html')

@@ -4,12 +4,17 @@
 
 {% block content %}
 <h2>Welcome to the Blog!</h2>
-<p>This is the homepage for your blog.</p>
+
+{% if user.is_authenticated %}
+    <p>Hello, {{ user.username }}! Welcome back.</p>
+{% else %}
+    <p>Welcome to our platform. Please <a href="{% url 'login' %}">login</a> or <a href="{% url 'register' %}">register</a>.</p>
+{% endif %}
 
 <h3>Recently Registered Users</h3>
 <ul>
     {% for user in recent_users %}
-    <li>{{ user.username }} - {{ user.date_joined }}</li>
+        <li>{{ user.username }} - {{ user.date_joined }}</li>
     {% endfor %}
 </ul>
 {% endblock %}
