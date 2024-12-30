@@ -35,22 +35,14 @@ project_name/
    - Contains the core files for your Django project.
 
    - **`__init__.py`**:
-     - An empty file that indicates this folder is a Python package.
 
    - **`asgi.py`**:
-     - Handles ASGI (Asynchronous Server Gateway Interface) configurations for asynchronous applications.
 
    - **`settings.py`**:
-     - Central configuration file for your project.
-     - Contains settings for installed apps, database configurations, middleware, templates, static files, and more.
-
+   
    - **`urls.py`**:
-     - Contains URL patterns for routing HTTP requests to specific views.
-     - Acts as a directory of all your app-level `urls.py` files.
 
    - **`wsgi.py`**:
-     - Handles WSGI (Web Server Gateway Interface) configurations for deploying your application to production.
-
 ---
 
 ## **2. Adding an App to the Project**
@@ -75,23 +67,9 @@ app_name/
 
 1. **`admin.py`**:
    - Registers models with the Django admin site for management.
-   - Example:
-     ```python
-     from django.contrib import admin
-     from .models import Post
-
-     admin.site.register(Post)
-     ```
 
 2. **`apps.py`**:
    - Configures the app within the project.
-   - Example:
-     ```python
-     from django.apps import AppConfig
-
-     class BlogConfig(AppConfig):
-         default_auto_field = 'django.db.models.BigAutoField'
-         name = 'blog'
      ```
 
 3. **`migrations/`**:
