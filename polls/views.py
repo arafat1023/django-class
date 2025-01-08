@@ -2,9 +2,11 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.forms import UserCreationForm
 
 from .models import Choice, Question
 from django.urls import reverse
+from django.shortcuts import redirect
 from django.db.models import F
 from django.views import generic
 
@@ -50,3 +52,13 @@ def vote(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
+
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("polls:login")
+    else:
+        form = UserCreationForm()
+    return render(request, "polls/register.html", {"form": form})
