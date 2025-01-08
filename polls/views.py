@@ -8,7 +8,11 @@ from .models import Choice, Question
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.db.models import F
+from django.db.models import F
 from django.views import generic
+from django import forms
+from django.contrib.auth.models import User
+
 
 
 
@@ -53,12 +57,20 @@ def vote(request, question_id):
         # user hits the Back button.
         return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
 
+class UserProfileForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+    profile_picture = forms.ImageField(required=False)
+
+    class Meta:
+        model = User
+        fields = ["username", "email", "password1", "password2", "profile_picture"]
+
 def register(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = UserProfileForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect("polls:login")
     else:
-        form = UserCreationForm()
+        form = UserProfileForm()
     return render(request, "polls/register.html", {"form": form})
