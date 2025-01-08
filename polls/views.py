@@ -9,7 +9,6 @@ from .models import Choice, Question
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.db.models import F
-from django.db.models import F
 from django.views import generic
 from django import forms
 from django.contrib.auth.models import User
