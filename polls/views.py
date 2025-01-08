@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
+from .forms import ContactForm
 
 from .models import Choice, Question
 from django.urls import reverse
@@ -74,3 +75,20 @@ def register(request):
     else:
         form = UserProfileForm()
     return render(request, "polls/register.html", {"form": form})
+
+def contact_us(request):
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # Process the form data
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+            # Simulate sending an email or saving to the database
+            print(f"Received message from {name} ({email}): {subject}\n{message}")
+            return HttpResponse("Thank you for your message!")
+    else:
+        form = ContactForm()
+
+    return render(request, "polls/contact_us.html", {"form": form})
