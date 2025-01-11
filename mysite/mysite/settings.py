@@ -73,13 +73,20 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'django_class',  # Replace with the name of your database
+        'USER': 'root',  # Typically 'root' for initial setup
+        'PASSWORD': 'Ruetcourse12@',  # The password you set for the MySQL user
+        'HOST': 'localhost',  # Usually 'localhost' if MySQL is on the same machine
+        'PORT': '3306',  # Default MySQL port
+        'OPTIONS': {
+            'charset': 'utf8mb4'  # Recommended charset for full Unicode support
+        },
     }
 }
+
 
 
 # Password validation
