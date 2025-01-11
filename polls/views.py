@@ -12,6 +12,8 @@ from django.db.models import F
 from django.views import generic
 from django import forms
 from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -91,3 +93,14 @@ def contact_us(request):
         form = ContactForm()
 
     return render(request, "polls/contact_us.html", {"form": form})
+
+@csrf_exempt
+def contact_submit_api(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'status': 'success', 'message': 'Thank you for your message!'})
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
