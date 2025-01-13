@@ -1,0 +1,17 @@
+{% extends 'polls/base.html' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block content %}
+    <h1>User Profile</h1>
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}!</p>
+        {% if user.email %}
+            <p>Email: {{ user.email }}</p>
+        {% endif %}
+        {# Add more user profile details here if needed #}
+    {% else %}
+        <p>You are not logged in.</p>
+        <p><a href="{% url 'login' %}">Login</a> to view your profile.</p>
+    {% endif %}
+{% endblock %}

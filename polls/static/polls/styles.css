@@ -2,16 +2,63 @@ body {
     background-image: url("background.jpg");
     background-size: cover;
     font-family: Arial, sans-serif;
+    margin: 0; /* Reset default margin */
 }
+
 header {
     background-color: #333;
     color: white;
     padding: 10px;
     text-align: center;
 }
+
 h1 {
     font-size: 2.5rem;
 }
+
 a {
     color: #008cba;
+    text-decoration: none; /* Remove underlines from links */
+}
+
+nav {
+    background-color: #f0f0f0;
+    padding: 10px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+nav li {
+    float: left;
+}
+
+nav li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav li a:hover {
+    background-color: #ddd;
+}
+
+.container {
+    padding: 20px;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed; /* Or 'static' depending on your layout */
+    bottom: 0;
+    width: 100%;
 }

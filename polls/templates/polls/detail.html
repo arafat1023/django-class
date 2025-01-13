@@ -1,11 +1,9 @@
+{% extends 'polls/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" type="text/css" href="{% static 'polls/styles.css' %}">
-    <title>Vote on {{ question.question_text }}</title>
-</head>
-<body>
+
+{% block title %}Vote on {{ question.question_text }}{% endblock %}
+
+{% block content %}
     <header>
         <img src="{% static 'polls/banner.jpg' %}" alt="Banner" style="width: 100%;">
         <h1>{{ question.question_text }}</h1>
@@ -29,5 +27,4 @@
         </fieldset>
         <input type="submit" value="Vote">
     </form>
-</body>
-</html>
+{% endblock %}

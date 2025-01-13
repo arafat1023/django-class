@@ -1,14 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Contact Us</title>
-</head>
-<body>
+{% extends 'polls/base.html' %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
     <h1>Contact Us</h1>
+    {% if form.errors %}
+        <div style="color: red;">
+            Please correct the following errors:
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ field.label }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Submit</button>
     </form>
-</body>
-</html>
+{% endblock %}

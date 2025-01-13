@@ -14,5 +14,6 @@ urlpatterns = [
     path("login/", auth_views.LoginView.as_view(template_name="polls/login.html"), name="login"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("contact/", views.contact_us, name="contact_us"),
-    path("api/contact/submit/", views.contact_submit_api, name="contact_submit_api")
+    path("api/contact/submit/", views.contact_submit_api, name="contact_submit_api"),
+    path("profile/", views.user_profile, name="profile"),
 ]

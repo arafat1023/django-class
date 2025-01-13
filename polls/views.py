@@ -14,6 +14,10 @@ from django import forms
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
+
 
 
 
@@ -104,3 +108,18 @@ def contact_submit_api(request):
         else:
             return JsonResponse({'status': 'error', 'errors': form.errors})
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
+@login_required
+def user_profile(request):
+    return render(request, 'polls/userprofile.html')
+
+def home(request):
+    return render(request, 'polls/home.html')  # You'll need to create this template
+
+class UserProfileView(TemplateView):
+    template_name = 'polls/userprofile.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')  # Or raise Http404
+        return super().dispatch(request, *args, **kwargs)
