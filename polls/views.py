@@ -151,7 +151,7 @@ def user_edit(request, pk):
             return render(request, 'polls/user_edit.html', {'form': form, 'user': user})
     else:
         form = EditUserForm(instance=user)
-    return render(request, 'polls/user_edit.html', {'form': form, 'user': user})s
+    return render(request, 'polls/user_edit.html', {'form': form, 'user': user})
 
 @login_required
 def user_delete(request, pk):
