@@ -16,4 +16,7 @@ urlpatterns = [
     path("contact/", views.contact_us, name="contact_us"),
     path("api/contact/submit/", views.contact_submit_api, name="contact_submit_api"),
     path("profile/", views.user_profile, name="profile"),
+    path('users/', views.user_list, name='user_list'),
+    path('users/edit/<int:pk>/', views.user_edit, name='user_edit'),
+    path('users/delete/<int:pk>/', views.user_delete, name='user_delete'),
 ]

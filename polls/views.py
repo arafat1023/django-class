@@ -17,6 +17,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
+from django.contrib import messages
+
+
 
 
 
@@ -123,3 +126,39 @@ class UserProfileView(TemplateView):
         if not request.user.is_authenticated:
             return redirect('login')  # Or raise Http404
         return super().dispatch(request, *args, **kwargs)
+
+@login_required
+def user_list(request):
+    users = User.objects.all()
+    return render(request, 'polls/user_list.html', {'users': users})
+
+class EditUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']
+
+@login_required
+def user_edit(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    if request.method == 'POST':
+        form = EditUserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"User '{user.username}' updated successfully.")
+            return redirect('polls:user_list')
+        else:
+            # Re-render the form with validation errors
+            return render(request, 'polls/user_edit.html', {'form': form, 'user': user})
+    else:
+        form = EditUserForm(instance=user)
+    return render(request, 'polls/user_edit.html', {'form': form, 'user': user})s
+
+@login_required
+def user_delete(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    if request.method == 'POST':
+        if request.POST.get('confirm') == 'yes':
+            user.delete()
+            messages.success(request, f"User '{user.username}' deleted successfully.")
+        return redirect('polls:user_list')
+    return render(request, 'polls/user_delete_confirm.html', {'user': user})

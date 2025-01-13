@@ -1,0 +1,39 @@
+{% extends 'polls/base.html' %}
+
+{% block title %}User List{% endblock %}
+
+{% block content %}
+    <h2 style="color: #333; text-align: center; margin-bottom: 20px;">User List</h2>
+    {% if messages %}
+        <ul class="messages" style="list-style-type: none; padding: 0;">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %} style="background-color: #d4edda; color: #155724; padding: 10px; margin-bottom: 10px; border-radius: 5px;">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead style="background-color: #f2f2f2;">
+            <tr>
+                <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Username</th>
+                <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Email</th>
+                <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 8px; border: 1px solid #ddd;">{{ user.username }}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">{{ user.email }}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        <a href="{% url 'polls:user_edit' user.id %}" style="background-color: #007bff; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 0.9em;">Edit</a>
+                        <a href="{% url 'polls:user_delete' user.id %}" style="background-color: #dc3545; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 0.9em; margin-left: 5px;">Delete</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3" style="padding: 8px; border: 1px solid #ddd; text-align: center;">No users found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

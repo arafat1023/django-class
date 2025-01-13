@@ -79,6 +79,7 @@
             <li style="float: left;"><a href="{% url 'polls:contact_us' %}" style="display: block; color: white; text-align: center; padding: 14px 16px; text-decoration: none; border-radius: 5px; margin: 0 5px; background-color: rgba(255, 255, 255, 0.1);">Contact Us</a></li>
             {% if user.is_authenticated %}
                 <li style="float: left;"><a href="{% url 'polls:profile' %}" style="display: block; color: white; text-align: center; padding: 14px 16px; text-decoration: none; border-radius: 5px; margin: 0 5px; background-color: rgba(255, 255, 255, 0.1);">Profile</a></li>
+                <li style="float: left;"><a href="{% url 'polls:user_list' %}" style="display: block; color: white; text-align: center; padding: 14px 16px; text-decoration: none; border-radius: 5px; margin: 0 5px; background-color: rgba(255, 255, 255, 0.1);">User List</a></li>
                <li style="float: left;">
                    <form method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
