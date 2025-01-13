@@ -3,11 +3,34 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
-    <a href="{% url 'polls:register' %}">Don't have an account? Register</a>
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 70vh;">
+        <h2 style="color: #333; margin-bottom: 20px;">Login</h2>
+        <form method="post" style="width: 300px; padding: 20px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
+            {% csrf_token %}
+            <div style="margin-bottom: 15px;">
+                {% if form.errors %}
+                    <ul style="color: red; padding-left: 20px;">
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field|capfirst }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% for field in form %}
+                    <p style="margin-bottom: 10px;">
+                        <label for="{{ field.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ field.label_tag }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <small style="color: #777;">{{ field.help_text }}</small>
+                        {% endif %}
+                    </p>
+                {% endfor %}
+            </div>
+            <button type="submit" style="background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; width: 100%;">Login</button>
+        </form>
+        <p style="margin-top: 10px;">
+            <a href="{% url 'polls:register' %}" style="color: #007bff; text-decoration: none;">Don't have an account? Register</a>
+        </p>
+    </div>
 {% endblock %}

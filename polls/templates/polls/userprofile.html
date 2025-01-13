@@ -3,15 +3,21 @@
 {% block title %}User Profile{% endblock %}
 
 {% block content %}
-    <h1>User Profile</h1>
-    {% if user.is_authenticated %}
-        <p>Welcome, {{ user.username }}!</p>
-        {% if user.email %}
-            <p>Email: {{ user.email }}</p>
+    <div style="display: flex; flex-direction: column; align-items: center; padding: 20px;">
+        <h1 style="color: #333; margin-bottom: 20px;">User Profile</h1>
+        {% if user.is_authenticated %}
+            <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center;">
+                <p style="font-size: 1.2em; color: #007bff; margin-bottom: 10px;">Welcome, <strong style="font-weight: bold;">{{ user.username }}</strong>!</p>
+                {% if user.email %}
+                    <p style="color: #555; margin-bottom: 8px;">Email: <span style="font-style: italic;">{{ user.email }}</span></p>
+                {% endif %}
+                {# Add more user profile details here if needed #}
+            </div>
+        {% else %}
+            <div style="text-align: center; padding: 20px;">
+                <p style="color: #777; margin-bottom: 10px;">You are not logged in.</p>
+                <p><a href="{% url 'login' %}" style="color: #007bff; text-decoration: none; font-weight: bold;">Login</a> to view your profile.</p>
+            </div>
         {% endif %}
-        {# Add more user profile details here if needed #}
-    {% else %}
-        <p>You are not logged in.</p>
-        <p><a href="{% url 'login' %}">Login</a> to view your profile.</p>
-    {% endif %}
+    </div>
 {% endblock %}

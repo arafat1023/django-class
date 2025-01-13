@@ -5,31 +5,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Polls App{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'polls/styles.css' %}">
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        nav li {
+            float: left;
+        }
+        nav li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        nav li a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        button {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-left: 10px;
+        }
+        button:hover {
+            background-color: #c82333;
+        }
+    </style>
 </head>
-<body>
-    <nav>
-        <ul>
-            <li><a href="{% url 'polls:index' %}">Home</a></li>
-            <li><a href="{% url 'polls:contact_us' %}">Contact Us</a></li>
+<body style="margin: 0; font-family: sans-serif; background-color: #f0f0f0;">
+    <nav style="background-color: #007bff; color: white; padding: 10px;">
+        <ul style="list-style-type: none; margin: 0; padding: 0; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+            <li style="float: left;"><a href="{% url 'polls:index' %}" style="display: block; color: white; text-align: center; padding: 14px 16px; text-decoration: none; border-radius: 5px; margin: 0 5px; background-color: rgba(255, 255, 255, 0.1);">Home</a></li>
+            <li style="float: left;"><a href="{% url 'polls:contact_us' %}" style="display: block; color: white; text-align: center; padding: 14px 16px; text-decoration: none; border-radius: 5px; margin: 0 5px; background-color: rgba(255, 255, 255, 0.1);">Contact Us</a></li>
             {% if user.is_authenticated %}
-                <li><a href="{% url 'polls:profile' %}">Profile</a></li>
-               <form method="post" action="{% url 'logout' %}">
-                {% csrf_token %}
-            <button type="submit">Logout</button>
-             </form>
+                <li style="float: left;"><a href="{% url 'polls:profile' %}" style="display: block; color: white; text-align: center; padding: 14px 16px; text-decoration: none; border-radius: 5px; margin: 0 5px; background-color: rgba(255, 255, 255, 0.1);">Profile</a></li>
+               <li style="float: left;">
+                   <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" style="background-color: #dc3545; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; margin-left: 10px;">Logout</button>
+                    </form>
+               </li>
             {% else %}
-                <li><a href="{% url 'polls:login' %}">Login</a></li>
-                <li><a href="{% url 'polls:register' %}">Register</a></li>
+                <li style="float: left;"><a href="{% url 'polls:login' %}" style="display: block; color: white; text-align: center; padding: 14px 16px; text-decoration: none; border-radius: 5px; margin: 0 5px; background-color: rgba(255, 255, 255, 0.1);">Login</a></li>
+                <li style="float: left;"><a href="{% url 'polls:register' %}" style="display: block; color: white; text-align: center; padding: 14px 16px; text-decoration: none; border-radius: 5px; margin: 0 5px; background-color: rgba(255, 255, 255, 0.1);">Register</a></li>
             {% endif %}
         </ul>
     </nav>
-    <div class="container">
+    <div class="container" style="width: 80%; margin: 20px auto; background-color: white; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); border-radius: 8px;">
         {% block content %}
         {% endblock %}
     </div>
-    <footer>
+    <footer style="background-color: #343a40; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
         <p>© {% now "Y" %} Polls App</p>
     </footer>
 </body>
-</html>s
+</html>

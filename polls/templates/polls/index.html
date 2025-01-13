@@ -3,16 +3,22 @@
 {% block title %}Polls{% endblock %}
 
 {% block content %}
-    <header>
-        <h1>Welcome to the Polls App</h1>
+    <header style="text-align: center; margin-bottom: 30px;">
+        <h1 style="color: #007bff; font-size: 2em;">Welcome to the Polls App</h1>
     </header>
-    {% if latest_question_list %}
-        <ul>
-        {% for question in latest_question_list %}
-            <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No polls are available.</p>
-    {% endif %}
+    <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+        {% if latest_question_list %}
+            <ul style="list-style-type: none; padding: 0;">
+            {% for question in latest_question_list %}
+                <li style="margin-bottom: 10px; padding: 10px; border-bottom: 1px solid #eee;">
+                    <a href="{% url 'polls:detail' question.id %}" style="text-decoration: none; color: #333; display: block; transition: background-color 0.3s ease;">
+                        <span style="font-weight: bold;">{{ question.question_text }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p style="color: #777;">No polls are available.</p>
+        {% endif %}
+    </div>
 {% endblock %}
